@@ -4,48 +4,48 @@ class Solver(gcj.Solver):
 
     def _solve_one(self):
         num=self._getstringline()
-        ugly=0
         primes=(2,3,5,7)
-        choice=range(len(num)-1)
-        for order in range(3**len(choice)):
-            res=[]
-            j=order
-            factor=1
-            while 3*factor<=order:
-                factor*=3
-            for i in range(len(choice)):
-                div=j/factor
-                mod=j%factor
-                res.append(div)
-                if factor==1:
-                    break
-                j=mod
-                factor/=3
-            prefix=[]
-            for i in range(len(choice)-len(res)):
-                prefix.append(0)
-            prefix.extend(res)
-            res=prefix
+        n=len(num)
+        if n==1:
+            if int(num)==1:
+                return 0
+            else:
+                return 1
+        choice=(len(num)-1)*[0]
+        ugly=0
+        while True:
+            # Compute value of sum for current choice of sings
             sum=0
             i=0
             factor=1
-            for k in range(len(res)):
-                if res[i]==0:
+            for k in range(n-1):
+                if choice[k]==0:
+                    # number continues
                     continue
                 else:
-                    j=k+1
-                    add=factor*int(num[i:j])
-                    if choice[i]==2:
-                        factor=-1
-                    else:
+                    # cut and sign requested at this position
+                    j=k+1 # we are offset by 1 (no sign at position 0)
+                    sum+=factor*int(num[i:j])
+                    if choice[k]==1:
                         factor=1
-                    sum+=add
-                    i=j
-            if len(num)==1:
-                sum=int(num)
+                    else:
+                        factor=-1
+                    i=j #next cut starts where this cut ends
+            # last cut for the remainder
+            sum+=factor*int(num[i:])
+            # check if number is ugly
             for prime in primes:
                 if sum%prime==0:
-                    #print "Sum %d is ugly" % sum
                     ugly+=1
                     break
+            # Generate next variation:
+            i=0
+            while i<n-1 and choice[i]==2:
+                choice[i]=0
+                i+=1
+            if i==n-1:
+                # no variation after the last one
+                break
+            else:
+                choice[i]+=1
         return str(ugly)
