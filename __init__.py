@@ -30,14 +30,43 @@ def __my_import(name):
     return mod
 
 if __name__=='__main__':
+    import optparse
+    parser=optparse.OptionParser()
+    parser.add_option("-c", "--psyco",
+            dest="psyco", action="store_true", dest="psyco", default=False,
+            help="Use psyco to speedup run")
+    parser.add_option("-p", "--profile",
+            dest="profile", dest="profile", default=None, metavar="PROFILE_FILE",
+            help="Profile the application and store results in the specified file")
+    (opts, args) = parser.parse_args()
+    if opts.psyco and opts.profile:
+        sys.stderr.write("You can't use both psyco and profile at the same time.\n")
+        sys.exit(1)
+    if opts.psyco:
+        try:
+            import psyco
+            psyco.full()
+        except ImportError:
+            sys.stderr.write("Psyco is not available; we will terminate.\n")
+            sys.exit(1)
     prefix='gcj.problems'
-    round=sys.argv[1]
-    problem=sys.argv[2]
+    round=args[0]
+    problem=args[1]
     solvermodulename='.'.join((prefix, round, problem))
     classname='Solver'
     solvermodule=__my_import(solvermodulename)
     solverclass=getattr(solvermodule,classname)
-    f=open(sys.argv[3],'rt')
+    f=open(args[2],'rt')
     solver=solverclass(f)
-    solver.solve()
+    if opts.profile:
+        try:
+            import hotshot
+        except ImportError:
+            sys.stderr.write("hotshot profiler not available; we will terminate.\n")
+            sys.exit(1)
+        else:
+            prof=hotshot.Profile(opts.profile,lineevents=1,linetimings=1)
+            prof.runcall(solver.solve)
+    else:
+        solver.solve()
     f.close()
