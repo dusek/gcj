@@ -10,6 +10,9 @@ class Solver:
     def _getintline(self):
         return int(self._getstringline())
 
+    def _getintsline(self):
+        return map(int, self._getstringline().rstrip().split(' '))
+
     def _solve_one(self):
         raise NotImplementedError("You must override the solve method")
 
