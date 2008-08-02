@@ -11,7 +11,13 @@ class Solver:
         return int(self._getstringline())
 
     def _getintsline(self):
-        return map(int, self._getstringline().rstrip().split(' '))
+        return self._getlineitems(int)
+
+    def _getstringsline(self):
+        return self._getlineitems()
+
+    def _getlineitems(self, transform=lambda x:x):
+        return map(transform, self._getstringline().rstrip().split(' '))
 
     def _solve_one(self):
         raise NotImplementedError("You must override the solve method")
