@@ -3,8 +3,8 @@ import gcj
 class Solver(gcj.Solver):
     def solve(self):
         length=self._getintline()
-        v1=map(int, self._getstringline().split(' '))
-        v2=map(int, self._getstringline().split(' '))
+        v1=self._getlineitems(int)
+        v2=self._getlineitems(int)
         v1.sort()
         v2.sort()
         v2=list(reversed(v2))

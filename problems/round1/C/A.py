@@ -3,8 +3,8 @@ import gcj
 class Solver(gcj.Solver):
     
     def _solve_one(self):
-        P,K,L = map(int, self._getstringline().split(' '))
-        freqs=map(int, self._getstringline().split(' '))
+        P,K,L = self._getintsline()
+        freqs=self._getintsline()
         freqs.sort()
         freqs=list(reversed(freqs))
         used=len(freqs)

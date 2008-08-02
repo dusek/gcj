@@ -3,7 +3,7 @@ import gcj
 class Solver(gcj.Solver):
 
     def _solve_one(self):
-        n,m,X,Y,Z=map(int, self._getstringline().split(' '))
+        n,m,X,Y,Z=self._getintsline()
         A=[]
         for i in range(m):
             A.append(self._getintline())

@@ -2,8 +2,7 @@ import gcj
 
 class Solver(gcj.Solver):
     def _solve_one(self):
-        line=self._getstringline()
-        self.n, self.A, self.B, self.C, self.D, self.x0, self.y0, self.M=map(int,line.split(' '))
+        self.n, self.A, self.B, self.C, self.D, self.x0, self.y0, self.M=self._getintsline()
         classes=[]
         for i in range(3):
             list=[]

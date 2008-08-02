@@ -8,7 +8,7 @@ traced_pos=3
 
 class Solver(gcj.Solver):
     def _solve_one(self):
-        M,V = map(int, self._getstringline().rstrip().split(' '))
+        M,V = self._getintsline()
         self.tree=[None] # we are numbering from 1
         i=0
         for i in range(M):

@@ -5,7 +5,7 @@ def area(x2,y2,x3,y3):
 
 class Solver(gcj.Solver):
     def _solve_one(self):
-        N,M,A = map(int, self._getstringline().rstrip().split(' '))
+        N,M,A = self._getintsline()
         if A>N*M:
             return "IMPOSSIBLE"
         x2=0
