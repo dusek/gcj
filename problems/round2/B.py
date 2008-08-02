@@ -15,14 +15,10 @@ class Solver(gcj.Solver):
         found=False
         Xs=range(N+1)
         Ys=range(M+1)
-        try:
-            for x2 in Xs:
-                for y2 in Ys:
-                    for x3 in Xs:
-                        for y3 in Ys:
-                            if area(x2,y2,x3,y3)==A:
-                                raise NotImplementedError()
-        except NotImplementedError:
-            return "%d %d %d %d %d %d" % (0, 0, x2, y2, x3, y3)
-        else:
-            return "IMPOSSIBLE"
+        for x2 in Xs:
+            for y2 in Ys:
+                for x3 in Xs:
+                    for y3 in Ys:
+                        if area(x2,y2,x3,y3)==A:
+                            return "%d %d %d %d %d %d" % (0, 0, x2, y2, x3, y3)
+        return "IMPOSSIBLE"
