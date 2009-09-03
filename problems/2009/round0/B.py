@@ -22,10 +22,10 @@ class Offset:
         return Offset(0,-1)
     @staticmethod
     def West():
-        return Offset(1,0)
+        return Offset(-1,0)
     @staticmethod
     def East():
-        return Offset(-1,0)
+        return Offset(1,0)
     @staticmethod
     def South():
         return Offset(0,1)
