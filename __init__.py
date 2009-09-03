@@ -42,10 +42,10 @@ if __name__=='__main__':
     import optparse
     parser=optparse.OptionParser()
     parser.add_option("-c", "--psyco",
-            dest="psyco", action="store_true", dest="psyco", default=False,
+            dest="psyco", action="store_true", default=False,
             help="Use psyco to speedup run")
     parser.add_option("-p", "--profile",
-            dest="profile", dest="profile", default=None, metavar="PROFILE_FILE",
+            dest="profile", default=None, metavar="PROFILE_FILE",
             help="Profile the application and store results in the specified file")
     (opts, args) = parser.parse_args()
     if opts.psyco and opts.profile:

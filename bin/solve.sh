@@ -1,3 +1,3 @@
 #!/bin/sh
 thisdir="`dirname $0`"
-PYTHONPATH="${PYTHONPATH}:${thisdir}/../.." python -m gcj "$@"
+PYTHONPATH="${PYTHONPATH}:${thisdir}/../.." python -m gcj.__init__ "$@"
