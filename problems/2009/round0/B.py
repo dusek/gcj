@@ -1,4 +1,5 @@
 import gcj
+import sys
 import string
 
 class Offset:
@@ -90,11 +91,11 @@ class Cell:
 
     def find_sink(self):
         cur=self
-        prev=self
-        while cur is not None:
-            prev=cur
-            cur=cur.to
-        return prev
+        next=cur.to
+        while next is not None:
+            cur=next
+            next=cur.to
+        return cur
 
     def label_basin(self,label_idx):
         self.label_idx=label_idx
@@ -113,12 +114,15 @@ class Solver(gcj.Solver):
             if cell.label_idx is None:
                 cell.find_sink().label_basin(label_idx)
                 label_idx+=1
-        ret='\n'
-        i=0
         for row in map.rows():
-            i+=1
-            if i==H:
-                ret+=' '.join((string.ascii_lowercase[cell.label_idx] for cell in row))
-            else:
-                ret+=' '.join((string.ascii_lowercase[cell.label_idx] for cell in row))+'\n'
-        return ret
+            print ' '.join((string.ascii_lowercase[cell.label_idx] for cell in row))
+
+    def solve(self):
+        cases=self._getintline()
+        case=0
+        while cases:
+            cases-=1
+            case+=1
+            sys.stderr.write("Solving case %d\n" % case)
+            print "Case #%d:" % case
+            self._solve_one()
