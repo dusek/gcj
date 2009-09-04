@@ -9,6 +9,9 @@
 #include <tbb/pipeline.h>
 #endif
 #include <functional>
+#ifdef GCJ_PROGRESS_BAR
+#include <boost/progress.hpp>
+#endif
 
 #include <istream>
 #include <ostream>
@@ -74,17 +77,31 @@ namespace {
 
     class tbb_output_filter : public case_filter {
         std::ostream& m_output;
+        std::size_t m_case_idx;
         std::size_t m_case_count;
+#ifdef GCJ_PROGRESS_BAR
+        boost::progress_display m_progress_display;
+#endif
     public:
-        tbb_output_filter(std::ostream& o)
+        tbb_output_filter(std::ostream& o, std::size_t case_count)
             :
         case_filter(tbb::filter::serial_in_order),
         m_output(o),
-        m_case_count(0)
+        m_case_idx(0),
+        m_case_count(case_count)
+#ifdef GCJ_PROGRESS_BAR
+        ,
+        m_progress_display(m_case_count)
+#endif
         {}
 
         virtual void process_case(gcj::Case *case_) {
-            case_->output_solution(m_output, m_case_count++);
+#ifdef GCJ_PROGRESS_BAR
+            ++m_progress_display;
+#else
+            std::clog << "Solved case " << m_case_idx + 1 << std::endl;
+#endif
+            case_->output_solution(m_output, m_case_idx++);
             delete case_;
         }
     };
@@ -107,14 +124,22 @@ namespace gcj {
             tbb::pipeline pipeline;
             tbb_input_filter input_filter(i, solver, case_count);
             tbb_solving_filter solving_filter;
-            tbb_output_filter output_filter(o);
+            tbb_output_filter output_filter(o, case_count);
             pipeline.add_filter(input_filter);
             pipeline.add_filter(solving_filter);
             pipeline.add_filter(output_filter);
             pipeline.run(0x7fffffff); // read: very big
 #endif
         } else {
+#ifdef GCJ_PROGRESS_BAR
+            boost::progress_display progress_display(case_count);
+#endif
             for(std::size_t case_idx = 0; case_idx < case_count; ++case_idx) {
+#ifdef GCJ_PROGRESS_BAR
+                ++progress_display;
+#else
+                std::clog << "Solving case " << case_idx + 1 << std::endl;
+#endif
                 const std::auto_ptr<gcj::Case> case_(solver.parse_one_case(i));
                 case_->solve();
                 case_->output_solution(o, case_idx);
