@@ -91,7 +91,7 @@ namespace {
         m_case_count(case_count)
 #ifdef GCJ_PROGRESS_BAR
         ,
-        m_progress_display(m_case_count)
+        m_progress_display(m_case_count, std::cerr)
 #endif
         {}
 
@@ -132,7 +132,7 @@ namespace gcj {
 #endif
         } else {
 #ifdef GCJ_PROGRESS_BAR
-            boost::progress_display progress_display(case_count);
+            boost::progress_display progress_display(case_count, std::cerr);
 #endif
             for(std::size_t case_idx = 0; case_idx < case_count; ++case_idx) {
 #ifdef GCJ_PROGRESS_BAR
