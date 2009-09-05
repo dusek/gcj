@@ -4,6 +4,7 @@
 #include <memory>
 #include <iostream>
 #include <fstream>
+#include <cassert>
 #include <gcj/Solver.h>
 #ifdef GCJ_PARALLELIZE
 #include <tbb/pipeline.h>
@@ -142,6 +143,8 @@ namespace gcj {
             pipeline.add_filter(output_filter);
             pipeline.add_filter(delete_filter);
             pipeline.run(0x7fffffff); // read: very big
+#else
+            assert(!"Programming error: parallelizing when parallelizing impossible");
 #endif
         } else {
 #ifdef GCJ_PROGRESS_BAR
