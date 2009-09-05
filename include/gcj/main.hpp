@@ -102,6 +102,17 @@ namespace {
             std::clog << "Solved case " << m_case_idx + 1 << std::endl;
 #endif
             case_->output_solution(m_output, m_case_idx++);
+        }
+    };
+
+    class tbb_delete_filter : public case_filter {
+    public:
+        tbb_delete_filter()
+            :
+        case_filter(tbb::filter::parallel)
+        {}
+
+        virtual void process_case(gcj::Case *case_) {
             delete case_;
         }
     };
@@ -125,9 +136,11 @@ namespace gcj {
             tbb_input_filter input_filter(i, solver, case_count);
             tbb_solving_filter solving_filter;
             tbb_output_filter output_filter(o, case_count);
+            tbb_delete_filter delete_filter;
             pipeline.add_filter(input_filter);
             pipeline.add_filter(solving_filter);
             pipeline.add_filter(output_filter);
+            pipeline.add_filter(delete_filter);
             pipeline.run(0x7fffffff); // read: very big
 #endif
         } else {
