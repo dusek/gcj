@@ -1,3 +1,47 @@
+If you want to reproduce my solution from Google Code Jam, follow these
+instructions (example follows; if you instead want to use this library to code your
+own solutions, head to the QUICK START section):
+
+0. Definitions:
+<gcj-dir>: the root directory of the archive (the directory usually
+named "gcj").
+<input-file-name>: name of file which contains the small or large (or whatever) input to solve
+<output-file-name>: name of file to which write solution
+
+I also expect these instructions will be followed on a UNIX system. I do not
+have the time to test on Windows, even though I tend to write multiplatform code.
+
+1. Determine whether I used C++ or Python
+  * look at problems/<year>/<round>/<problem>.<"py" or "cpp">. I use latin letters
+    for the <problem> part.
+2a. If I used Python (tested with 2.6.1):
+2a1. Run <gcj-dir>/bin/solve.sh <year>.<round> <problem> <input-file-name> > <output-file-name>
+     where the ">" sign between input and output file is shell's output redirection
+2b. If I used C++ (tested on g++ 4.2.1):
+2b1. compile the source code: g++ -I<gcj-dir>/include -o <problem> <gcj-dir>/<year>/<round>/<problem>.cpp
+2b2. run the binary: ./<problem> <input-file-name> <output-file-name>
+
+EXAMPLE:
+========
+You want to evaluate problem "C. Welcome to Code Jame" from Round 1A in year 2009.
+So <year>=2009, <problem>=C
+
+Python:
+-------
+cd <gcj-dir>
+ls problems/2009 # you find out that "Round 1A" is represented by directory "round1A"
+ls problems/2009/round1A # you find that only file there starting with "C" is "C.py"
+bin/solve.sh 2009.round1A C C-large.in.txt > C-large.out.txt
+
+C++:
+----
+cd <gcj-dir>
+ls problems/2009 # you find out that "Round 1A" is represented by directory "round1A"
+ls problems/2009/round1A # you find that only file there starting with "C" is "C.cpp"
+g++ -I./include -O2 -o C problems/2009/round1A/C.cpp
+./C C-large.in.txt C-large.out.txt
+
+
 QUICK START:
 
 The demo files and demo input is in directory problems/demo.
@@ -86,29 +130,3 @@ g++ -Wall -O2 -DGCJ_PARALLELIZE -I$HOME/Documents/gcj/include -o C C.cpp -ltbb
 
 3. then run:
 ./C C-large-in.txt C-large-out.txt
-
-For Google Code Jam, I use a custom "gcj" library to ease the task of
-reading input and producing output. I am submitting the library along
-with code solving the problem.
-
-Each problem is solved in directory gcj/problems/<year>/round<N>/<ABC>/<problem-letter>.py,
-where <N> is the number of round (i.e. for "Round 1", N=1), <ABC> is present
-only for Round 1 and denotes whether the problem is from Round 1A, or Round 1B
-or Round 1c. Finally, <problem-name> is either "A" or "B" or "C", corresponding
-to the problem letter in original problem statement.
-
-TO REPRODUCE THE SUBMITTED OUTPUT:
-==================================
-
-Run this command on UNIX (use the ".<ABC>" part only for Round 1):
-gcj/bin/solve round<N>.<ABC> <problem-letter> <testcase-input-file-path>
-
-I.e., to solve problem B from Round 1C in year 2008, run:
-gcj/bin/solve 2009.round1.C B <testcase-input-file-path>
-
-To solve problem A from Round 3 in year 2009, run:
-gcj/bin/solve 2009.round3 A <testcase-input-file-path>
-
-
-
-Sorry for any inconvenience with my setup.
