@@ -19,6 +19,8 @@ public:
      * @param cur_idx - position of this case in list of all cases (from 0)
      */
     virtual void output_solution(std::ostream& o, std::size_t cur_idx) = 0;
+
+    virtual ~Case(){};
 };
 
 class Solver {
@@ -38,6 +40,8 @@ public:
      * Query solver whether it is thread-safe
      */
     virtual bool parallelize() const = 0 ;
+
+    virtual ~Solver(){};
 };
 }
 
