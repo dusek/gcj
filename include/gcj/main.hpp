@@ -120,8 +120,8 @@ namespace {
 }
 
 namespace gcj {
-    void solve(Solver& solver, std::istream &i, std::ostream& o) {
-        const std::size_t case_count = solver.parse_header(i);
+    void solve(Solver& solver, std::istream &input, std::ostream& output) {
+        const std::size_t case_count = solver.parse_header(input);
         const bool parallelize = 
 #ifdef GCJ_PARALLELIZE
             solver.parallelize()
@@ -133,9 +133,9 @@ namespace gcj {
         if (parallelize) {
 #ifdef GCJ_PARALLELIZE
             tbb::pipeline pipeline;
-            tbb_input_filter input_filter(i, solver, case_count);
+            tbb_input_filter input_filter(input, solver, case_count);
             tbb_solving_filter solving_filter;
-            tbb_output_filter output_filter(o, case_count);
+            tbb_output_filter output_filter(output, case_count);
             tbb_delete_filter delete_filter;
             pipeline.add_filter(input_filter);
             pipeline.add_filter(solving_filter);
@@ -153,9 +153,9 @@ namespace gcj {
 #else
                 std::clog << "Solving case " << case_idx + 1 << std::endl;
 #endif
-                const std::auto_ptr<gcj::Case> case_(solver.parse_one_case(i));
+                const std::auto_ptr<gcj::Case> case_(solver.parse_one_case(input));
                 case_->solve();
-                case_->output_solution(o, case_idx);
+                case_->output_solution(output, case_idx);
             }
         }
     }
