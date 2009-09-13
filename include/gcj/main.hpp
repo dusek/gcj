@@ -99,7 +99,7 @@ namespace {
         virtual void process_case(gcj::Case *case_) {
 #ifdef GCJ_PROGRESS_BAR
             ++m_progress_display;
-#else
+#elif !defined(GCJ_NOLOG)
             std::clog << "Solved case " << m_case_idx + 1 << std::endl;
 #endif
             case_->output_solution(m_output, m_case_idx++);
@@ -153,7 +153,7 @@ namespace gcj {
             for(std::size_t case_idx = 0; case_idx < case_count; ++case_idx) {
 #ifdef GCJ_PROGRESS_BAR
                 ++progress_display;
-#else
+#elif !defined(GCJ_NOLOG)
                 std::clog << "Solving case " << case_idx + 1 << std::endl;
 #endif
                 const std::auto_ptr<gcj::Case> case_(solver.parse_one_case(input));
