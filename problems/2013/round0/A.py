@@ -1,3 +1,8 @@
+# to reproduce, please download my GCJ framework http://github.com/dusek/gcj
+# and place this file as problems/2013/round0/A.py and run
+# bin/solve.sh 2013.round0 A <your input file> > <your output file>
+# I had problems uploading ZIP archive of the linked repository as source code
+# to GCJ
 import gcj
 import sys
 
