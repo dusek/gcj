@@ -1,4 +1,9 @@
 #!/bin/sh
+
+# Usage: pack.sh year round problem
+# Creates an archive named `gcj-dusek-year-round-problem.zip` in the directory parent to the one containing this script.
+# The archive contains all source code to reproduce the problem, based on what is in git's head.
+
 year="$1"
 round="$2"
 problem="$3"

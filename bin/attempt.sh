@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Usage: attempt.sh year round problem
+# Solve problem "year round problem" with input file "problem-*.in.txt".
+# Put solution along with packed source code into upload_dir=~/Downloads/gcj_upload
+
 upload_dir="${upload_dir:-$HOME/Downloads/gcj_upload}"
 
 year="$1"
