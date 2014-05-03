@@ -1,6 +1,8 @@
 import gcj
 import string
 
+# Wrong solution! any DFS (on original graph) is wrong!
+
 class Solver(gcj.Solver):
     def DFS(self, adjlist, zips, vstate, u, ziporder):
         assert vstate[u]==0
@@ -9,6 +11,7 @@ class Solver(gcj.Solver):
         for v in adjlist[u]:
             if vstate[v] == 0:
                 self.DFS(adjlist, zips, vstate, v, ziporder)
+        vstate[u] = 2
     def _solve_one(self):
         N, M = self._getintsline()
         adjlist = []
