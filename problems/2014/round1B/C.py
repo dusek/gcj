@@ -4,25 +4,21 @@ import string
 # Wrong solution! any DFS (on original graph) is wrong!
 
 class Solver(gcj.Solver):
-    def DFS(self, adjlist, zips, vstate, u, ziporder, crossedges):
+    def DFS(self, adjlist, zips, vstate, u, ziporder, badedges):
         assert vstate[u]==0
         vstate[u] = 1
         ziporder.append(zips[u])
         for v in adjlist[u]:
             if vstate[v] == 0:
-                self.DFS(adjlist, zips, vstate, v, ziporder)
+                self.DFS(adjlist, zips, vstate, v, ziporder, badedges)
             elif vstate[v] == 2: # crossedge
-                i = adjlist[v].find(u)
+                i = adjlist[v].index(u)
                 if i != 0:
-                    finished = False
                     toremove=[]
                     for j in range(i-1):
                         w = adjlist[v][i]
                         if vstate[w] == 2:
-                            crossedges.append((v, w))
-                            toremove.append(j)
-                            adjlist[w].remove(v)
-                    adjlist[v] = [adjlist[i] for i in range(len(adjlist[v])) if i not in toremove]
+                            badedges.append((v, w))
         vstate[u] = 2
     def _solve_one(self):
         N, M = self._getintsline()
@@ -44,8 +40,11 @@ class Solver(gcj.Solver):
         while True:
             vstate = N*[0] # 0 - not discovered, 1 - discovered, 2 - finished
             ziporder = []
-            crossedges = []
-            self.DFS(adjlist, zips, vstate, ustart, ziporder, crossedges)
-            if len(crossedges) == 0:
+            badedges = []
+            self.DFS(adjlist, zips, vstate, ustart, ziporder, badedges)
+            if len(badedges) == 0:
                 break
+            for (u, v) in badedges:
+                adjlist[u].remove(v)
+                adjlist[v].remove(u)
         return string.join((str(zip) for zip in ziporder), '')
