@@ -25,6 +25,11 @@ class Solver(gcj.Solver):
                         return 0
                     if nextorder[PREV] is not None and nextorder[PREV] != prevlet:
                         return 0
+                    p = let
+                    while p is not None and p != prevlet:
+                        p = letordering[p][NEXT]
+                    if p == prevlet:
+                        return 0
                     prevorder[NEXT] = let
                     nextorder[PREV] = prevlet
         components = []
