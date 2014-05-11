@@ -42,14 +42,18 @@ class Solver(gcj.Solver):
             letterorder[letter] = i
         # letters contains letters in their order, letterorder contains order index of each letter
         # 2. order sets
+#        print "Order of letters: %s" % (letterorder,)
+ #       print "sets: %s" % (sets,)
         sets = map(lambda set: (ord(set[0]) - ord('a'), ord(set[-1]) - ord('a'),), sets)
+  #      print "sets: %s" % (sets,)
         BEGIN, END = range(2)
-        sets = sorted(sets, key=lambda set: letterorder[set[BEGIN]])
+        sets = sorted(sets, key=lambda set: set[BEGIN]==set[END] and (letterorder[set[BEGIN]] - 0.1) or letterorder[set[BEGIN]])
         prevset = None
         setcomponents = []
         setcomponent = []
         setcount = 26*[0]
         for set in sets:
+            #print "Examining set %s" % (set,)
             if set[BEGIN] == set[END]:
                 setcount[set[BEGIN]] += 1
             if prevset is not None:
@@ -79,4 +83,6 @@ class Solver(gcj.Solver):
                     factor = setcount[set[BEGIN]]
                     results = modmultiply(results, factor, 1000000007)
         results = modmultiply(results, len(setcomponents), 1000000007)
+        #print "setcount = %s" % (setcount,)
+        #print "setcomponents = %s" % (setcomponents,)
         return results
