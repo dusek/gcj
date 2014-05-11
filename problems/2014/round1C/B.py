@@ -30,19 +30,19 @@ class Solver(gcj.Solver):
         components = []
         for let in range(26):
             if letordering[let][PREV] is None:
-                components.append[let]
+                components.append(let)
         letters = []
         for component in components:
             letter = component
             while letter is not None:
-                letters.append[letter]
+                letters.append(letter)
                 letter = letordering[letter][NEXT]
         letterorder = range(26)
         for i, letter in enumerate(letters):
             letterorder[letter] = i
         # letters contains letters in their order, letterorder contains order index of each letter
         # 2. order sets
-        sets = map(sets, lambda set: (set[0] - ord('a'), set[-1] - ord('a'),))
+        sets = map(lambda set: (ord(set[0]) - ord('a'), ord(set[-1]) - ord('a'),), sets)
         BEGIN, END = range(2)
         sets = sorted(sets, key=lambda set: letterorder[set[BEGIN]])
         prevset = None
@@ -62,7 +62,8 @@ class Solver(gcj.Solver):
                 # very first set
                 setcomponent = []
                 setcomponents.append(setcomponent)
-            setcomponent.append(set)
+            if set[BEGIN] != set[END] or setcount[set[BEGIN]] == 1:
+                setcomponent.append(set)
             prevset = set
         # setcomponents contains components of set graph, each component is ordered list of sets
         results = 1
