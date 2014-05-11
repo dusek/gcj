@@ -12,12 +12,15 @@ class Solver(gcj.Solver):
             if vstate[v] == 0:
                 self.DFS(adjlist, zips, vstate, v, ziporder, badedges)
             elif vstate[v] == 2: # crossedge
+                print "Cross edge: %d-%d" % (u, v,)
                 i = adjlist[v].index(u)
                 if i != 0:
-                    toremove=[]
+                    print "Examining potential bad edges"
                     for j in range(i-1):
-                        w = adjlist[v][i]
+                        w = adjlist[v][j]
+                        print "Potential bad edge %d-%d" % (v, w,)
                         if vstate[w] == 2:
+                            print "Bad edge: %d-%d" % (v, w,)
                             badedges.append((v, w))
         vstate[u] = 2
     def _solve_one(self):
